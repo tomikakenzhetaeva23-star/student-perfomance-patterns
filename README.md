@@ -26,6 +26,7 @@
   * Categorical: `Parental_Education`, `Access_to_Resources`, `Motivation_Level`, `School_Type`.
 * **Features EXCLUDED from $X$:**
   * `Exam_Score` — excluded to prevent **Data Leakage**, as the target variable $y$ is created directly from it.
+  * ![Correlation Matrix](correlation.matrix.png)
 
 ### Data Issues
 1. **Different Feature Scales:** Attendance ranges from 60 to 100%, while tutoring sessions range from 0 to 5. Feature scaling is required.
@@ -121,18 +122,13 @@ Data is divided into **Train (70%)**, **Validation (15%)**, and **Test (15%)** s
 
 ### Key Plots and Comments:
 
-#### 1. Choosing k for K-Means (Elbow Method and Silhouette Score)
-*(Insert your Elbow & Silhouette plot here)*
+* #### 1. Choosing k for K-Means (Elbow Method and Silhouette Score)
+![Elbow and Silhouette](elbow.method.png)
 * **Comment:** The elbow plot bend and the highest silhouette peak at $k=3$ confirm that 3 clusters is the optimal choice.
 
-#### 2. Neural Network Training Curves (Loss)
-*(Insert your training loss plot here)*
-* **Comment:** Train and Val loss decrease together smoothly without diverging, proving that Dropout (0.2) prevents overfitting.
-
 #### 3. Confusion Matrix (3x3)
-*(Insert your Confusion Matrix plot here)*
+![Confusion Matrix](confusion.matrix.png)
 * **Comment:** The model clearly separates the extreme `Low` and `High` classes. Minor errors only occur along boundaries of neighboring classes.
-
 ---
 
 ## 7. Conclusion and Answer to Research Question
