@@ -36,15 +36,18 @@
 
 ---
 
-## 3. Data Preprocessing Pipeline & Formulas
+## 3. Data Preprocessing Pipeline and Formulas
 
 The data processing pipeline prevents any data leakage across subsets:
 
-$$\text{Raw Data} \longrightarrow \text{dropna()} \longrightarrow \text{Target Quantile Split (qcut)} \longrightarrow \text{Stratified 70/15/15 Split} \longrightarrow \text{Scaling \& OHE}$$
+```text
+Raw Data -> dropna() -> Target Quantile Split (qcut) -> Stratified 70/15/15 Split -> Scaling and OHE
 
 ### Preprocessing Formulas:
 
 1. **Balanced Target Split (3-way Quantiles):**
+
+Splitting final scores into 3 equal groups (33.3% of data each) using quantiles ($q=3$):$Q_1 = \text{Percentile}_{33.33}(Y)$$Q_2 = \text{Percentile}_{66.67}(Y)$Class Assignment:Low (0): $Y \le Q_1$Medium (1): $Q_1 < Y \le Q_2$High (2): $Y > Q_2$StandardScaler (Z-score Normalization):Fitted strictly on $X_{\text{train}}$ and applied to Validation and Test sets:$$z = \frac{x - \mu_{\text{train}}}{\sigma_{\text{train}}}$$One-Hot Encoding (OHE):Converting a categorical feature $C$ with $K$ values into $K$ binary columns:$$x_{i,k} = \begin{cases} 1 \text{ if } C_i = k \\ 0 \text{ otherwise} \end{cases}$$
    Splitting final scores into 3 equal groups (33.3% of data each) using quantiles ($q=3$):
    $$Q_1 = \text{Percentile}_{33.33}(Y), \quad Q_2 = \text{Percentile}_{66.67}(Y)$$
    $$y = \begin{cases} 0 \text{ (Low)}, & Y \le Q_1 \\ 1 \text{ (Medium)}, & Q_1 < Y \le Q_2 \\ 2 \text{ (High)}, & Y > Q_2 \end{cases}$$
