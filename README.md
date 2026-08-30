@@ -122,6 +122,9 @@ Data is divided into **Train (70%)**, **Validation (15%)**, and **Test (15%)** s
 ![Elbow and Silhouette](elbow.method.png)
 * **Comment:** The elbow plot bend and the highest silhouette peak at $k=3$ confirm that 3 clusters is the optimal choice.
 
+#### 2. Neural Network Training Curves (Loss)
+![Training Loss Curves](loss_curves.png)
+* **Comment:** Both training and validation loss decrease smoothly over the 80 epochs and stabilize without diverging. The small gap between the two curves demonstrates that the model learns effectively without overfitting, confirming the success of the chosen learning rate (0.001) and Dropout regularization (0.2).
 #### 3. Confusion Matrix (3x3)
 ![Confusion Matrix](confusion.matrix.png)
 * **Comment:** The model clearly separates the extreme `Low` and `High` classes. Minor errors only occur along boundaries of neighboring classes.
