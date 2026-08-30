@@ -26,20 +26,16 @@
   * Categorical: `Parental_Education`, `Access_to_Resources`, `Motivation_Level`, `School_Type`.
 * **Features EXCLUDED from $X$:**
   * `Exam_Score` — excluded to prevent **Data Leakage**, as the target variable $y$ is created directly from it.
-  * ![Correlation Matrix](correlation.matrix.png)
-
+ 
 ### Data Issues
 1. **Different Feature Scales:** Attendance ranges from 60 to 100%, while tutoring sessions range from 0 to 5. Feature scaling is required.
 2. **Class Imbalance:** Simple threshold cuts put most students into the `Medium` class. We solved this using quantile splitting.
 
-*(Insert your correlation matrix image here)*
+ * ![Correlation Matrix](correlation.matrix.png)
+
 **Key Correlation Insight:** `Attendance` and `Hours_Studied` have the strongest positive correlation with exam scores. Sleep hours and physical activity show non-linear relationships.
 
 ---
-
-## 3. Data Preprocessing Pipeline and Formulas
-
-The data processing pipeline prevents any data leakage across subsets:
 
 ## 3. Data Preprocessing Pipeline and Formulas
 
