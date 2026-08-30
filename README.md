@@ -40,44 +40,56 @@
 
 The data processing pipeline prevents any data leakage across subsets:
 
-```text
-Raw Data -> dropna() -> Target Quantile Split (qcut) -> Stratified 70/15/15 Split -> Scaling and OHE
+## 3. Data Preprocessing Pipeline and Formulas
+
+The data processing pipeline prevents any data leakage across subsets:
+
+**Pipeline Flow:** Raw Data ➔ dropna() ➔ Target Quantile Split (qcut) ➔ Stratified 70/15/15 Split ➔ Scaling and OHE
 
 ### Preprocessing Formulas:
 
 1. **Balanced Target Split (3-way Quantiles):**
-
-Splitting final scores into 3 equal groups (33.3% of data each) using quantiles ($q=3$):$Q_1 = \text{Percentile}_{33.33}(Y)$$Q_2 = \text{Percentile}_{66.67}(Y)$Class Assignment:Low (0): $Y \le Q_1$Medium (1): $Q_1 < Y \le Q_2$High (2): $Y > Q_2$StandardScaler (Z-score Normalization):Fitted strictly on $X_{\text{train}}$ and applied to Validation and Test sets:$$z = \frac{x - \mu_{\text{train}}}{\sigma_{\text{train}}}$$One-Hot Encoding (OHE):Converting a categorical feature $C$ with $K$ values into $K$ binary columns:$$x_{i,k} = \begin{cases} 1 \text{ if } C_i = k \\ 0 \text{ otherwise} \end{cases}$$
-   Splitting final scores into 3 equal groups (33.3% of data each) using quantiles ($q=3$):
-   $$Q_1 = \text{Percentile}_{33.33}(Y), \quad Q_2 = \text{Percentile}_{66.67}(Y)$$
-   $$y = \begin{cases} 0 \text{ (Low)}, & Y \le Q_1 \\ 1 \text{ (Medium)}, & Q_1 < Y \le Q_2 \\ 2 \text{ (High)}, & Y > Q_2 \end{cases}$$
+   Splitting final scores into 3 equal groups (33.3% of data each) using quantiles ($q = 3$):
+   * $Q_1 = \text{Percentile}_{33.33}(Y)$
+   * $Q_2 = \text{Percentile}_{66.67}(Y)$
+   
+   Class Assignment:
+   * **Low (0):** $Y \le Q_1$
+   * **Medium (1):** $Q_1 < Y \le Q_2$
+   * **High (2):** $Y > Q_2$
 
 2. **StandardScaler (Z-score Normalization):**
    Fitted strictly on $X_{\text{train}}$ and applied to Validation and Test sets:
+   
    $$z = \frac{x - \mu_{\text{train}}}{\sigma_{\text{train}}}$$
 
 3. **One-Hot Encoding (OHE):**
    Converting a categorical feature $C$ with $K$ values into $K$ binary columns:
-   $$x_{i,k} = \begin{cases} 1, & \text{if } C_i = k \\ 0, & \text{otherwise} \end{cases}$$
+   
+   $$x_{i,k} = \begin{cases} 1 & \text{if } C_i = k \\ 0 & \text{otherwise} \end{cases}$$
 
 ---
 
-## 4. Model Descriptions & Parameters
+## 4. Model Descriptions and Parameters
 
 ### 1. K-Means Clustering (Unsupervised)
 Groups data points by minimizing the distance between points and their cluster centers (centroids).
 
 * **Inertia Formula (WCSS):**
+  
   $$\text{Inertia} = \sum_{j=1}^{k} \sum_{x_i \in C_j} ||x_i - \mu_j||^2$$
+
 * **Silhouette Score Formula:**
+  
   $$s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}$$
 
 ### 2. Deep Neural Network (PyTorch MLP)
 A Multi-Layer Perceptron designed for 3-class classification.
 
-* **Architecture:** Input ($N_{\text{features}}$) $\rightarrow$ Hidden Layer 1 (ReLU + Dropout 0.2) $\rightarrow$ Hidden Layer 2 (ReLU + Dropout 0.2) $\rightarrow$ Output (3 Logits).
-* **Parameters:** Learning Rate $\alpha = 0.001$ (Adam), Epochs = 80, Batch Size = 32.
+* **Architecture:** Input ($N_{\text{features}}$) ➔ Hidden Layer 1 (ReLU + Dropout 0.2) ➔ Hidden Layer 2 (ReLU + Dropout 0.2) ➔ Output (3 Logits)
+* **Parameters:** Learning Rate $\alpha = 0.001$ (Adam), Epochs = 80, Batch Size = 32
 * **Loss Function (Cross-Entropy Loss):**
+  
   $$\mathcal{L} = -\sum_{c=1}^{3} y_c \log(\hat{y}_c)$$
 
 ---
@@ -96,7 +108,7 @@ Data is divided into **Train (70%)**, **Validation (15%)**, and **Test (15%)** s
 
 ---
 
-## 6. Results & Visualizations
+## 6. Results and Visualizations
 
 ### Final Test Set Performance:
 
@@ -107,9 +119,9 @@ Data is divided into **Train (70%)**, **Validation (15%)**, and **Test (15%)** s
 
 ---
 
-### Key Plots & Comments:
+### Key Plots and Comments:
 
-#### 1. Choosing $k$ for K-Means (Elbow Method & Silhouette Score)
+#### 1. Choosing k for K-Means (Elbow Method and Silhouette Score)
 *(Insert your Elbow & Silhouette plot here)*
 * **Comment:** The elbow plot bend and the highest silhouette peak at $k=3$ confirm that 3 clusters is the optimal choice.
 
@@ -123,7 +135,7 @@ Data is divided into **Train (70%)**, **Validation (15%)**, and **Test (15%)** s
 
 ---
 
-## 7. Conclusion & Answer to Research Question
+## 7. Conclusion and Answer to Research Question
 
 **Answer to Research Question:** 
 **K-Means clustering** identified natural lifestyle patterns, but showed a low alignment with actual final grade tiers ($\text{ARI} = 0.1451$). This shows that natural student study habits do not map directly to strict grade categories without guidance.
@@ -132,7 +144,7 @@ In contrast, the **supervised PyTorch Neural Network** successfully captured non
 
 ---
 
-## 8. Limitations & Future Research
+## 8. Limitations and Future Research
 
 ### Limitations:
 1. **Missing Psychological Factors:** The dataset lacks measures of student stress levels, mental health, and exam anxiety.
